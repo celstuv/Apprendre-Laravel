@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.app')
   @section('content')
   <h1>{{$client->name}}</h1>
   <a href="/clients/{{ $client->id }}/edit" class="btn btn-secondary my-3">Editer</a>

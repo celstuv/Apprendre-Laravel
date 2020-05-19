@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.app')
   @section('content')
     <h1>Editer le profil de {{ $client->name }}</h1>
     <br><br>

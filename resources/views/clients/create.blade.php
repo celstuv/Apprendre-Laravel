@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.app')
   @section('content')
     <h1>Création d'un nouveau client</h1>
     <br><br>

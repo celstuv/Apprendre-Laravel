@@ -34,3 +34,7 @@ Route::resource('clients', 'ClientsController'); //cette ligne résume toutes le
 //Route::view('contact', 'contact'); // le 1er contact c'est l'url, le 2ème contact c'est la vue
 Route::get('contact', 'ContactController@create');
 Route::post('contact', 'ContactController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
