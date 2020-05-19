@@ -8,10 +8,14 @@ use App\Entreprise;
 
 class ClientsController extends Controller
 {
-   public function index(){
+  public function __construct(){
+    //sécurisation des routes du controller, excepté index; Ici on voi la liste des clients
+    $this->middleware('auth')->except(['index']);
 
+  }
+
+  public function index(){
      $clients = Client::all();
-
       //on envoie des données dans une variable Clients,  le contenu du tableau clients et on fait de même avec une varible entreprises
        return view('clients.index',compact('clients'));
        //*return view('clients.index',['Client' =>$clients]);  //Ancienne saisie => on envoie des données dans une variable Clients le contenu du tableau clients
@@ -19,24 +23,17 @@ class ClientsController extends Controller
 
 
    public function create(){
-
        $entreprises = Entreprise::all();
        $client = new Client();
-
        return view('clients.create',compact('entreprises', 'client'));
    }
 
 
    public function store(){
-
-     $data = request()->validate([
-       'name'=>'required|min:3', //Champs pseudo ne peut être vide en BDD et ne peut être inférieur à 3 caractères.
-       'email'=>'required|email', //Champs email ne peut être vide en BDD.
-       'status'=>'required|integer', //s'il n'est pas requis, si ce n'est aps un entier, on renvoi une erreur.
-       'entreprise_id'=>'required|integer' //s'il n'est pas requis, si ce n'est aps un entier, on renvoi une erreur.
-     ]);
      // dd($data);
-     Client::create($data);
+     $client = Client::create($this->validator());
+
+     $this->storeImage($client);
      // $name = request('name'); //récupération du pseudo du client noté dans le formulaire
      // $email = request('email'); //récupération du pseudo du client noté dans le formulaire
      // $status = request('status'); //récupération du pseudo du client noté dans le formulaire
@@ -64,36 +61,50 @@ class ClientsController extends Controller
 
       //2ème méthode
    public function show(Client $client){
-
      return view('clients.show', compact('client'));
      }
 
 
    public function edit(Client $client){
-
      $entreprises = Entreprise::all();
      return view('clients.edit', compact('client', 'entreprises'));
      }
 
 
    public function update(Client $client){
-
-     $data = request()->validate([
-       'name'=>'required|min:3', //Champs pseudo ne peut être vide en BDD et ne peut être inférieur à 3 caractères.
-       'email'=>'required|email', //Champs email ne peut être vide en BDD.
-       'status'=>'required|integer', //s'il n'est pas requis, si ce n'est aps un entier, on renvoi une erreur.
-       'entreprise_id'=>'required|integer' //s'il n'est pas requis, si ce n'est aps un entier, on renvoi une erreur.
-     ]);
-     $client->update($data);
-
+     //$data = request()->validate([
+       //'name'=>'required|min:3', //Champs pseudo ne peut être vide en BDD et ne peut être inférieur à 3 caractères.
+       //'email'=>'required|email', //Champs email ne peut être vide en BDD.
+       //'status'=>'required|integer', //s'il n'est pas requis, si ce n'est aps un entier, on renvoi une erreur.
+       //'entreprise_id'=>'required|integer' //s'il n'est pas requis, si ce n'est aps un entier, on renvoi une erreur.
+     //]);
+     $client->update($this->validator());
+     $this->storeImage($client);
      return redirect('clients/' . $client->id);
      }
 
 
      public function destroy(Client $client){
-
         $client->delete();
-
        return redirect('clients');
        }
+
+
+     private function validator(){
+       return request()->validate([
+         'name'=>'required|min:3', //Champs pseudo ne peut être vide en BDD et ne peut être inférieur à 3 caractères.
+         'email'=>'required|email', //Champs email ne peut être vide en BDD.
+         'status'=>'required|integer', //s'il n'est pas requis, si ce n'est aps un entier, on renvoi une erreur.
+         'entreprise_id'=>'required|integer', //s'il n'est pas requis, si ce n'est aps un entier, on renvoi une erreur.
+         'image'=>'sometimes|image|max:5000'
+       ]);
+       }
+
+    private function storeImage(Client $client){
+      if (request('image')) {
+        $client->update([
+          'image'=>request('image')->store('avatars', 'public'),
+        ]);
+      }
+    }
 }

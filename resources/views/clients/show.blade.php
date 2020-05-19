@@ -10,5 +10,7 @@
   <hr>
   <p><strong>Email : </strong>{{ $client->email }}</p>
   <p><strong>Entreprise : </strong>{{ $client->entreprise->name }}</p>
-
+  @if($client->image)
+    <img src="{{ asset('storage/'. $client->image) }}" alt="client-avatar" class="img-thumbnail" width="300">
+  @endif
   @endsection

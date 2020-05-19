@@ -31,3 +31,13 @@
     <div class="invalid-feedback">{{ $errors->first('entreprise_id') }}</div>
   @enderror
 </div>
+<div class="form-group">
+  <div class="custom-file">
+    <input type="file" name="image" class="custom-file-input" id="validatedCustomFile" @error('image') is-invalid @enderror>
+    <label class="custom-file-label" for="validatedCustomFile">Choisir une image</label>
+    @error('image')
+      <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+    @enderror
+  </div>
+
+</div>

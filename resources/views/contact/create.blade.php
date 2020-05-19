@@ -4,7 +4,7 @@
   <h1>Contactez-nous !</h1>
   <hr>
   @if (!session()->has('message'))
-    <form action="/contact" method="post">
+    <form action="{{ route('contact.store') }}" method="post">
         @csrf <!-- Vérification de l'identité du client-->
           <div class="form-group">
              <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"

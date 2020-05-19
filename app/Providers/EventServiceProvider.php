@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Listeners\UserHasRegisteredListener;
+use App\Events\UserHasRegisteredEvent;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,8 +17,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+      //j'indique le nom de ma class qui crée l'évènement(enregistrer nouvel user)
+        'App\Events\UserHasRegisteredEvent' => [
+            'App\Listeners\UserHasRegisteredListener',
         ],
     ];
 
