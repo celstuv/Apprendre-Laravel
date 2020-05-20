@@ -30,7 +30,7 @@ class UserHasRegisteredListener implements ShouldQueue
      */
     public function handle($event)
     {
-      sleep(5);
+      // sleep(5);
       //on récupère les informations du user depuis l'évènement
         Mail::to($event->user->email)->send(new WelcomeUserMail($event->user));
     }

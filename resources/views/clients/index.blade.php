@@ -2,8 +2,9 @@
 
 @section('content')
   <h1>Clients</h1>
+  @can('create', App\Client::class) <!--montrer le bouton si nous sommes connecteés en tant qu'admin ou personne authorisée-->
   <a href="/clients/create" class="btn btn-primary my-3"> Nouveau Client</a>
-
+  @endcan
   <hr>
   <table class="table">
     <thead>

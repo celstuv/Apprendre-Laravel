@@ -23,6 +23,8 @@ class ClientsController extends Controller
 
 
    public function create(){
+        $this->authorize('create', Client::class); //permettre l'accès de la création du client par l'admin ou personne authorisée uniquement
+
        $entreprises = Entreprise::all();
        $client = new Client();
        return view('clients.create',compact('entreprises', 'client'));
@@ -85,6 +87,8 @@ class ClientsController extends Controller
 
 
      public function destroy(Client $client){
+       $this->authorize('delete', $client); //permettre la suppression du client par l'admin ou personne authorisée uniquement
+
         $client->delete();
        return redirect('clients');
        }
