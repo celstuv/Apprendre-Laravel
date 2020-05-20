@@ -15,7 +15,7 @@ class ClientsController extends Controller
   }
 
   public function index(){
-     $clients = Client::all();
+     $clients = Client::with('entreprise')->paginate(15);
       //on envoie des données dans une variable Clients,  le contenu du tableau clients et on fait de même avec une varible entreprises
        return view('clients.index',compact('clients'));
        //*return view('clients.index',['Client' =>$clients]);  //Ancienne saisie => on envoie des données dans une variable Clients le contenu du tableau clients

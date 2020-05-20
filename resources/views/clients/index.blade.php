@@ -28,4 +28,9 @@
       @endforeach
     </tbody>
 </table>
+
+<div class="row d-flex justify-content-center my-5">
+  {{ $clients->links() }}
+</div>
+
 @endsection

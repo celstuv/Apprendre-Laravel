@@ -44,3 +44,61 @@ Route::post('contact', 'ContactController@store')->name('contact.store'); //Help
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/phone', function () {
+    //Creation de user
+    $user = factory('App\User')->create();
+    //1ère méthode
+        //création d'un n° de tel
+          //$phone = new App\Phone();
+          //$phone->phone_number = '04 94 00 00 00';
+        //traitement de la relation  entre phone et user
+          //$user->phone()->save($phone);
+
+    //2eme méthode
+    $user->phone()->create([
+      'phone_number' => '01 94 00 01 01'
+    ]);
+});
+
+
+Route::get('/post', function () {
+      //1ère méthode
+        //  $user = factory('App\User')->create();
+
+        // $post = new App\Post();
+        // $post->title = 'Premier titre';
+        // $post->content = 'Premier content';
+        // $post->user_id = $user->id;
+
+        // $post->save();
+
+    //2eme méthode
+        $user = App\User::first();
+
+        $user->posts()->create([
+          'title' => 'Mon deuxième titre',
+          'content' => 'Mon deuxième contenu'
+        ]);
+});
+
+
+Route::get('/user_role', function () {
+      //1ère méthode
+        // $user = factory('App\User')->create();
+        // $roles = App\Role::all();
+        //
+        // $user->roles()->attach($roles);
+
+    //2eme méthode
+        // $user = App\User::first();
+        // $role = App\Role::first();
+        //
+        // $user->roles()->detach($role);
+
+    //3eme méthode
+         $user = App\User::first();
+
+         $user->roles()->attach([1,3]); //ici, il peut y avoir doublon de role pour es utilisateur
+         //$user->roles()->sync([1,3]); // ici, on synchronise les rôles des users
+});
